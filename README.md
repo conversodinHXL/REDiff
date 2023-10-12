@@ -1,7 +1,5 @@
 # REDiff：python scripts for identifying differential RNA editing events between different groups with small size RNA-seq dataset.
 
-===================================================================
-
 Introduction
 ============
 <p align-text="justify"> RNA editing is a post-transcriptional phenomenon
@@ -12,7 +10,7 @@ profound functional consequences and have been linked to a variety of human dise
 neurological and neurodegenerative disorders or cancer. Next generation sequencing technologies
 offer the unique opportunity to investigate in depth RNA editing even though no dedicated
 software has been released up to now. with calling out RNA editing events, it's necessary to sort
-out RNA editing events thus faliciating 
+out RNA editing events thus faliciating identify important RNA editing events. however, 
 
 REDItREDiffools are simple python scripts conceived to facilitate the investigation of RNA editing
 at large-scale and devoted to research groups that would to explore such phenomenon in own
