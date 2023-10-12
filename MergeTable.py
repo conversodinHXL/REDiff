@@ -7,12 +7,43 @@ from statsmodels.stats.multitest import fdrcorrection as fdr
 
 desc="""this file is the core file to detection differential RNA editing events between different groups. firstly, RNA editing events adn editing levels from all replicates in the same group would merged. here, we combine reads for different base (ATCG) and recaculate RNA editing levels with the number of base G and base A. second, the siginificance of specific editing events are valuved with fisher test, which we had introduced in our previous study. to minimize the false positive sites here, FDR were used. Finally, we use the annotaion from REDIportal to annoate RNA editing events we identified. 
 
-example results is as below:
+------------------
+This pipeline generates the following three output files:
+1. treat.REDIMerege.xls - RNA editing results for the treatment sample
+2. control.REDIMerege.xls - RNA editing results for the control sample
+3. *.Annotated.csv - Differential RNA editing analysis results
+For most users, the *.Annotated.csv file will contain the downstream differential analysis of primary interest. 
 
+------------------
+Example results is as below:
+chr	pos	Ref	strand	A_treatGroup	C_treatGroup	G_treatGroup	T_treatGroup	A_ControlGroup	C_ControlGroup	G_ControlGroup	T_ControlGroup	delta	odd_ratio	p_value	fdr	Ed	db	type	dbsnp	repeat	Func.wgEncodeGencodeBasicV34lift37	Gene.wgEncodeGencodeBasicV34lift37	GeneDetail.wgEncodeGencodeBasicV34lift37	ExonicFunc.wgEncodeGencodeBasicV34lift37	AAChange.wgEncodeGencodeBasicV34lift37	Func.refGene	Gene.refGene	GeneDetail.refGene	ExonicFunc.refGene	AAChange.refGene	Func.knownGene	Gene.knownGene	GeneDetail.knownGene	ExonicFunc.knownGene	AAChange.knownGene	phastConsElements100way
+10	100202378	T	0	43	0	0	0	11	0	0	0	0		1	1	C	A	ALU	-	SINE/AluJb	intronic	HPS1	-	-	intronic	HPS1	-	-	intronic	HPS1	-	-	-			
+10	100202384	T	0	48	0	0	0	21	0	0	0	0		1	1	C	A	ALU	-	SINE/AluJb	intronic	HPS1	-	-	intronic	HPS1	-	-	intronic	HPS1	-	-	-			
+10	100202391	T	0	47	0	0	0	21	0	0	0	0		1	1	C	A	ALU	-	SINE/AluJb	intronic	HPS1	-	-	intronic	HPS1	-	-	intronic	HPS1	-	-	-			
+10	100202395	T	0	34	0	0	0	10	0	0	0	0		1	1	C	A	ALU	-	SINE/AluJb	intronic	HPS1	-	-	intronic	HPS1	-	-	intronic	HPS1	-	-	-			
+10	100202423	T	0	28	0	0	0	10	0	0	0	0		1	1	C	A	ALU	rs904797680	SINE/AluJb	intronic	HPS1	-	-	intronic	HPS1	-	-	intronic	HPS1	-	-	-			
+------------------
+the meaning of each coloumn in the *.Annotated.csv is as below:
+chr: the chromosome name;
+pos: the position of the editing sites in genome;
+Ref: the base of the specific genome position for this site;
+strand: the strand of this base belong, 0 means minus strand, 1 meands plus strand;
+A_treatGroup: total number of A base in the specific genome  site;
+C_treatGroup: total number of C base in the specific genome  site;
+G_treatGroup: total number of G base in the specific genome  site;
+T_treatGroup: total number of T base in the specific genome  site;
+A_ControlGroup: total number of A base in the specific genome  site;
+C_ControlGroup: total number of C base in the specific genome  site;
+G_ControlGroup: total number of G base in the specific genome  site;
+T_ControlGroup: total number of T base in the specific genome  site;
+delta: the absolute editing level difference between treat and control group;
+odd_ratio: the odd ratio value from fisher test;
+p_value: the siginificance p-value value from fisher test;
+fdr: the fdr value for the difference level in the specific genome site;
+Ed~phastConsElements100way: the annotation from REDIPortals.
 
-
-
-
+------------------
+example usage: python MergeTable.py -o siADARVsControl -c Huvec_Scrambled_hypoxia_rep1.xls Huvec_Scrambled_hypoxia_rep2.xls Huvec_Scrambled_hypoxia_rep3.xls  -t Huvec_siADAR1_hypoxia_rep1.xls Huvec_siADAR1_hypoxia_rep2.xls Huvec_siADAR1_hypoxia_rep3.xls -k ../ouir/hg19_ref/TABLE1_hg19.forAnnotation.txt
 """
 epilog="""Author: Hu Xiaolin
 15216716554@163.com
@@ -68,7 +99,7 @@ def annotate(MergedFile,reference):
 	orderNew=['ID','chr','pos','strand','A_x','C_x','G_x','T_x','A_y','C_y','G_y','T_y','delta','odd_ratio','p_value','fdr','Region','Position','Ref','Strand','Ed','db','type','dbsnp','repeat','Func.wgEncodeGencodeBasicV34lift37','Gene.wgEncodeGencodeBasicV34lift37','GeneDetail.wgEncodeGencodeBasicV34lift37','ExonicFunc.wgEncodeGencodeBasicV34lift37','AAChange.wgEncodeGencodeBasicV34lift37','Func.refGene','Gene.refGene','GeneDetail.refGene','ExonicFunc.refGene','AAChange.refGene','Func.knownGene','Gene.knownGene','GeneDetail.knownGene','ExonicFunc.knownGene','AAChange.knownGene','phastConsElements100way']
 	Annotaed=Annotaed[orderNew]
 	Annotaed.rename(columns={'A_x':'A_treatGroup','C_x':'C_treatGroup','G_x':'G_treatGroup','T_x':'T_treatGroup','A_y':'A_ControlGroup','C_y':'C_ControlGroup','T_y':'T_ControlGroup','G_y':'G_ControlGroup'},inplace=True)
-	return Annotaed
+	return Annotaed.drop(['ID', 'Region','Position','Strand'], axis=1)
 
 
 
@@ -106,11 +137,7 @@ def main():
 	out.to_csv(o.output+".csv",index=False,sep=',')
 	if(o.REDIportal != 'no' and os.path.isfile(o.REDIportal)):
 		Anno=annotate(out,o.REDIportal)
-		
-		Anno.to_csv(o.output+".Temp.csv",index=False,sep=',')
-		reorder='awk -F"," {print $13,$14,$15,$16,$17,$1,$2,$3,$4,$6,$7,$8,$9,$10,$11,$12,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34} '+o.output+'.Temp.csv > '+o.output+'.Annotated.csv'
-		os.system(reorder)
-		os.system('rm'+o.output+".Temp.csv")
+		Anno.to_csv(o.output+".Annotated.csv",index=False,sep=',')
 
 
 if __name__=='__main__': 
