@@ -14,7 +14,7 @@ pip install DateTime <br/> <br/>
 
 **for linux:** <br/> <br/> 
 conda install bioconda::samtools <br/> <br/> 
-conda install bioconda::hisat2 <br/> <br/> <br/> <br/> 
+conda install bioconda::hisat2 <br/> <br/> 
 
 **please copy all scripts of REDiff to /usr/bin/ or your conda eviroment bin local.**
 
