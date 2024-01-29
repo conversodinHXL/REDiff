@@ -1,30 +1,20 @@
-desc="""This pipeline detects RNA editing events from RNA-seq data. The input is RNA-seq reads in FASTQ format, which can be single- or paired-end. The output is a list of detected RNA editing sites identified by REDItools.
-Briefly, the RNA-seq reads are first aligned to the human reference genome (GRCh37/hg19, SNP-masked index from Hisat2) using Hisat2. The alignment files are then converted to BAM, sorted, and indexed using Samtools. Finally, REDItools is used to call known RNA editing events from the REDIPortal database based on the mapped RNA-seq data.
-In summary, this pipeline aligns RNA-seq reads, processes the alignments, and then detects RNA editing sites by comparing to known sites from REDIPortal. The key tools utilized are Hisat2, Samtools, and REDItools.
+desc="""Identify RNA editing sites from RNAseq and DNAseq alignements (.bam).
+Alternatively, reference genome can be used instead of DNAseq,
+but at the cost of higher false positive. 
 
-The reference files required for this pipeline can be downloaded using the prepareReference.py script. This script acquires the necessary reference genome, gene annotations, and known RNA editing site databases to provide the reference data needed for read alignment and RNA editing detection. 
-
-The sample results of REDIKnowns is as below:
-
-Region  Position        Reference       Strand  Coverage-q25    MeanQ   BaseCount[A,C,G,T]      AllSubs Frequency       gCoverage-q25   gMeanQ  gBaseCount[A,C,G,T]  gAllSubs        gFrequency
-chr21   47739131        A       0       20      34.60   [18, 0, 2, 0]   AG      0.10    30      30.40   [30, 0, 0, 0]   -       0.00
-chr21   47739578        A       0       14      38.50   [11, 0, 3, 0]   AG      0.21    26      30.27   [26, 0, 0, 0]   -       0.00
-chr21   47739644        A       0       18      36.61   [13, 0, 5, 0]   AG      0.28    23      30.22   [23, 0, 0, 0]   -       0.00
-chr21   47739647        A       0       16      36.12   [7, 0, 9, 0]    AG      0.56    18      30.67   [18, 0, 0, 0]   -       0.00
-
-example usage: 
-python2.7 CutAndMapping.py -o  K562_ADAR_2  -i  ENCFF093ZYA.fastq ENCFF085DKT.fastq  -ri ../ouir/hg19_ref/grch37_snp/genome_snp -r ../ouir/hg19_ref/GRCh37.primary_assembly.genome.fa -k ../ouir/hg19_ref/REDIportals.forREDItools.txt.gz -t 64
-
+TBD:
+- editing from heterozygous sites?
 """
-epilog="""Author: Hu Xiaolin
+epilog="""Author:
 15216716554@163.com
 
-Shanghai/China 10/10/2023
+beijing/China 28/07/2017
 """
 import os,sys,re
 from datetime import datetime
 
 
+#python GATK2_1.py -r /data/ucsc.hg19.fasta -i /data/SRP026084/SRR901895_1.fastq.gz  /data/SRP026084/SRR901895_2.fastq.gz -T /data/EDITINGSoftware/ -t 2 -o test19
 
 def checkSoftware():
 	if(os.system("hisat2 --version") == "-bash: hisat2: command not found"):
@@ -32,7 +22,7 @@ def checkSoftware():
 	if(os.system("samtools") == "-bash: samtools: command not found"):
 		print("no samtools, please install")
 	if(re.match("not found",os.system("REDItoolKnown.py"))):
-		print("no REDItoolKnown.py, please download from our github and remove to /usr/bin/")
+		print("no REDItoolKnown.py, please download from github and remove to /usr/bin/")
 
 def mapping(input,refrence,refIndex,output,threads):
 	hisat='hisat2 -p '+str(threads)+' -x '+refIndex
@@ -41,7 +31,7 @@ def mapping(input,refrence,refIndex,output,threads):
 	if len(input)==2:
 		hisat=hisat+' -1 '+input[0]+" "+'-2 '+input[1]
 	hisat=hisat+' -S '+output+'/'+output+'.sam 2> '+output+'/'+output+'.mapping.log'
-	print(hisat)
+	print hisat
 	os.system(hisat)
 
 def samtools(threads,output):
@@ -49,8 +39,8 @@ def samtools(threads,output):
 	samtoolsSort=samtools+' sort --threads '+str(threads)+'  -o '+output+'/sort.bam '+output+'/'+output+'.sam'
 	samtoolsIndex=samtools+' index '+output+'/sort.bam'
 	removesam='rm '+output+'/'+output+'.sam'
-	print(samtoolsSort)
-	print(samtoolsIndex)
+	print samtoolsSort
+	print samtoolsIndex
 	os.system(samtoolsSort)
 	os.system(samtoolsIndex)
 	os.system(removesam)
@@ -58,21 +48,25 @@ def samtools(threads,output):
 def REDItools(refrence,REDIportal,minAltReads,minDepth,threads,output):
 	REDK='../ouir/REDItoolKnown.py '
 	REDK=REDK+' -i '+output+'/sort.bam -f '+refrence+' -l '+REDIportal+' -t '+str(threads)+' -c '+str(minDepth)+' -T 6-0  -p -e -d -u -m20  -v '+str(minAltReads)+' -n 0.0 -o '+output+'/'+output
-	print(REDK)
+	print REDK
+	CP='cp '+output+'/'+output+'known_*/out* '+output+'.xls'
+	print CP
 	os.system(REDK)
-	rename='cp '+output+'/'+output+'/'+'*/outTable*'+' '+output+'/'+output+'.REDIRes.txt'
-	os.system(rename)
+	os.system(CP)
 
-#def AnnotateSNV(toolbox):
-#    if not os.path.isfile('mpileup.avinput'):
-#		sys.stderr.write("No such file: mpileup.avinput\n")
-#		sys.exit(1)
-#	Annovar=toolbox+'/annovar/table_annovar.pl '
-#	Annovar=Annovar+' mpileup.avinput '+toolbox+'/annovar/humandb/ -buildver hg19  -out AnnotateSNV -protocol Alu,snp138,refGene,RBP_all,cytoBand,dgvMerged,esp6500siv2_all,exac03,genomicSuperDups,gerp++elem,targetScanS,wgRna,phastConsElements100way,phastConsElements46way,rmsk -operation r,f,g,r,r,r,f,f,r,f,r,r,r,r,r   -nastring . -csvout -thread 2 -remove'
-#	os.system(Annovar)
-
+def AnnotateSNV(toolbox):
+	if not os.path.isfile('mpileup.avinput'):
+			sys.stderr.write("No such file: mpileup.avinput\n")
+			sys.exit(1)
+	Annovar=toolbox+'/annovar/table_annovar.pl '
+	Annovar=Annovar+' mpileup.avinput '+toolbox+'/annovar/humandb/ -buildver hg19  -out AnnotateSNV -protocol Alu,snp138,refGene,RBP_all,cytoBand,dgvMerged,esp6500siv2_all,exac03,genomicSuperDups,gerp++elem,targetScanS,wgRna,phastConsElements100way,phastConsElements46way,rmsk -operation r,f,g,r,r,r,f,f,r,f,r,r,r,r,r   -nastring . -csvout -thread 2 -remove'
+	os.system(Annovar)
 
 
+def processAll(file):
+	mapping(file)
+	samtools(file)
+	transformRes(file)
 
 def main():
 	import argparse
@@ -84,7 +78,7 @@ def main():
 	parser.add_argument('-o','--output',required=False,  help="where results put")
 	parser.add_argument('-i','--input',nargs='*',default=[],required=False,  help="input RNA-seq fastq file")
 	parser.add_argument('-r','--refrence',required=False,  help="refrence genome fasta,only for hg19")
-	parser.add_argument('-ri','--refrenceIndex',required=False,  help="Hisat2 Index refrence genome fasta,only for hg19")
+	parser.add_argument('-ri','--refrenceIndex',required=False,  help="STAR Index refrence genome fasta,only for hg19")
 	parser.add_argument("-k", "--REDIportal",required=False,  help="path to REDIportal databases") 
 	parser.add_argument("--minDepth", default=10,  type=int,
                         help="minimal depth of coverage [%(default)s]")
@@ -112,14 +106,11 @@ def main():
 		output = sys.stdout
 	elif os.path.exists(o.output) :
 		sys.stderr.write("The output file %s exists!\n"%o.output)
-	print("Making output directory...")
+	os.system('rm -rf '+o.output)
 	os.system('mkdir '+o.output)
-	#os.system('cd '+o.output)
-	print("Mapping the reference genome...")
+	os.system('cd '+o.output)
 	mapping(o.input,o.refrence,o.refrenceIndex,o.output,o.threads)
-	print("Mapping results converting...")
 	samtools(o.threads,o.output)
-	print("Calling RNA editing events from mapping results...")
 	REDItools(o.refrence,o.REDIportal,o.minAltReads,o.minDepth,o.threads,o.output)
 
 
