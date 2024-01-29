@@ -3,7 +3,14 @@
 Introduction
 ============
 <p align-text="justify"> REDiff,  a specialized software for the human species, enables comprehensive RNA editing level analysis from raw fastq files. The tool efficiently prepares reference data, computes editing levels within individual samples, and compares events across distinct groups. False discovery rate correction ensures statistical rigor, enhancing outcome precision and interpretability. Finally, ReDiff provides differentially edited results with detailed annotations.</p>
-!(https://github.com/conversodinHXL/REDiff/blob/main/schema.png?raw=true)
+
+![](https://github.com/conversodinHXL/REDiff/blob/main/schema.png?raw=true)
+
+Performance
+===========
+![](https://github.com/conversodinHXL/REDiff/blob/main/schema.png?raw=true)
+Supplementary Figure 1: Performance of ReDiff on GSE60217. A) Time usage and fastq size. GB denotes Gibibyte, min denotes minutes. B) Significant differential editing events. The x-axis represents editing levels in the siADAR group, while the y-axis represents editing levels in the control group. 
+
 
 Installation
 ============
