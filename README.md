@@ -37,5 +37,22 @@ Parameters: -o: indicate the output files prefix; -c: file names of RNA editing 
 results 
 =======
 
-
+the meaning of each coloumn in the *.Annotated.csv is as below:
+chr: the chromosome name;
+pos: the position of the editing sites in genome;
+Ref: the base of the specific genome position for this site;
+strand: the strand of this base belong, 0 means minus strand, 1 meands plus strand;
+A_treatGroup: total number of A base in the specific genome  site;
+C_treatGroup: total number of C base in the specific genome  site;
+G_treatGroup: total number of G base in the specific genome  site;
+T_treatGroup: total number of T base in the specific genome  site;
+A_ControlGroup: total number of A base in the specific genome  site;
+C_ControlGroup: total number of C base in the specific genome  site;
+G_ControlGroup: total number of G base in the specific genome  site;
+T_ControlGroup: total number of T base in the specific genome  site;
+delta: the absolute editing level difference between treat and control group;
+odd_ratio: the odd ratio value from fisher test;
+p_value: the siginificance p-value value from fisher test;
+fdr: the fdr value for the difference level in the specific genome site;
+Ed~phastConsElements100way: the annotation from REDIPortals.
 
