@@ -54,6 +54,7 @@ Shanghai/China 10/10/2023
 
 
 
+
 def mergeFiles(files,prefix):
 	fileNames=''
 	for file in files:
@@ -99,7 +100,7 @@ def annotate(MergedFile,reference):
 	orderNew=['ID','chr','pos','strand','A_x','C_x','G_x','T_x','A_y','C_y','G_y','T_y','delta','odd_ratio','p_value','fdr','Region','Position','Ref','Strand','Ed','db','type','dbsnp','repeat','Func.wgEncodeGencodeBasicV34lift37','Gene.wgEncodeGencodeBasicV34lift37','GeneDetail.wgEncodeGencodeBasicV34lift37','ExonicFunc.wgEncodeGencodeBasicV34lift37','AAChange.wgEncodeGencodeBasicV34lift37','Func.refGene','Gene.refGene','GeneDetail.refGene','ExonicFunc.refGene','AAChange.refGene','Func.knownGene','Gene.knownGene','GeneDetail.knownGene','ExonicFunc.knownGene','AAChange.knownGene','phastConsElements100way']
 	Annotaed=Annotaed[orderNew]
 	Annotaed.rename(columns={'A_x':'A_treatGroup','C_x':'C_treatGroup','G_x':'G_treatGroup','T_x':'T_treatGroup','A_y':'A_ControlGroup','C_y':'C_ControlGroup','T_y':'T_ControlGroup','G_y':'G_ControlGroup'},inplace=True)
-	return Annotaed.drop(['ID', 'Region','Position','Strand'], axis=1)
+	return Annotaed
 
 
 
@@ -137,6 +138,7 @@ def main():
 	out.to_csv(o.output+".csv",index=False,sep=',')
 	if(o.REDIportal != 'no' and os.path.isfile(o.REDIportal)):
 		Anno=annotate(out,o.REDIportal)
+		
 		Anno.to_csv(o.output+".Annotated.csv",index=False,sep=',')
 
 
