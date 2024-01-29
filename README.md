@@ -1,4 +1,4 @@
-# REDiff：python scripts for identifying differential RNA editing events between different groups with small size RNA-seq dataset.
+# ReDiff: A robust statistical framework for precise assessment of differential RNA editing in limited samples
 
 Introduction
 ============
@@ -22,7 +22,7 @@ Usage
 ============
 **step0: downloading necessary files for hg19** <br/> <br/> 
 **Code:** python2.7 prepareRefrence.py -o test <br/> <br/> 
-**Output:** there would be 6 files listed in “test” directory, major 3 parts. <br/>
+**Output:** <br/> there would be 6 files listed in “test” directory, major 3 parts. <br/>
 1). Reference genome sequence, which downloaded from GENCODE. <br/>
 2). Snp masked index for hisat2, which integrated by hisat2. <br/>
 3). RNA editing events downloaded and reformatted from REDIportal. Final disk usage is nearly 11 GB. <br/>
@@ -31,19 +31,19 @@ Usage
 
 **ReDiff step 1: mapping, sorting, and calling RNA editing events** <br/> <br/> 
 **Code:** python2.7 CutAndMapping.py -o shADAR_rep1 -i SRR12091801.fastq -ri test/grch37_snp/genome_snp -r test/hg19.ref.fa -k test/hg19_ref/REDIportals.forREDItools.txt.gz -t 64<br/> <br/>
-**Output:** RNA editing events file, which named by “shADAR_rep1”, which was the standard output files from REDIknown 1.4. This file contained the position of RNA editing, specific number of bases of A, T, C, G, respectively, the average scores and RNA editing levels in this sample. <br/> <br/>
-**Parameters:**
+**Output:** <br/> RNA editing events file, which named by “shADAR_rep1”, which was the standard output files from REDIknown 1.4. This file contained the position of RNA editing, specific number of bases of A, T, C, G, respectively, the average scores and RNA editing levels in this sample. <br/> <br/>
+**Parameters:**<br/> 
 -o: indicate the output files prefix; <br/>
 -i: file names of adapter-trimmed fastq file, two files indicate pair-end sequencing files;  <br/>
 -ri: the path of snp masked index for hisat2;  <br/>
 -r: the path of reformatted RNA editing database from REDIportal;  <br/>
 -t number of threads for mapping, sorting, and calling RNA editing events.<br/> <br/>
 **ReDiff step 2: merging, calculating, and annotating significant RNA editing events**<br/> <br/> 
-**Code:** python MergeTable.py -o siADARVsControl -c Huvec_Scrambled_hypoxia_rep1.xls Huvec_Scrambled_hypoxia_rep2.xls Huvec_Scrambled_hypoxia_rep3.xls  -t Huvec_siADAR1_hypoxia_rep1.xls Huvec_siADAR1_hypoxia_rep2.xls Huvec_siADAR1_hypoxia_rep3.xls -k ../ouir/hg19_ref/TABLE1_hg19.forAnnotation.txt  <br/> <br/>
+**Code:** <br/> python MergeTable.py -o siADARVsControl -c Huvec_Scrambled_hypoxia_rep1.xls Huvec_Scrambled_hypoxia_rep2.xls Huvec_Scrambled_hypoxia_rep3.xls  -t Huvec_siADAR1_hypoxia_rep1.xls Huvec_siADAR1_hypoxia_rep2.xls Huvec_siADAR1_hypoxia_rep3.xls -k ../ouir/hg19_ref/TABLE1_hg19.forAnnotation.txt  <br/> <br/>
 **Output:**<br/> 
 “siADARVsControl.Annotated.csv”, the annotated differential RNA editing events file, This file contained the position of RNA editing, total number of all replicates of base of A, T, C, G, for case and control group, respectively, the differential RNA editing levels between case and control group, the p-value and fdr value for specific RNA editing events. annotation contained the genes, gene region the specific editing sites within. <br/>
 “control.REDIMerege.xls” and “treat.REDIMerege.xls”, those were the merge files of replicates withing control and case group. <br/>
-**Parameters:** -o: indicate the output files prefix; <br/>
+**Parameters:** <br/> -o: indicate the output files prefix; <br/>
 -c: file names of RNA editing results from control group; <br/>
 -t: file names of RNA editing results from case group;<br/>
 -k: the path of reformatted RNA editing database from REDIportal, which was for annotation.
