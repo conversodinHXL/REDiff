@@ -46,7 +46,7 @@ def samtools(threads,output):
 	os.system(removesam)
 
 def REDItools(refrence,REDIportal,minAltReads,minDepth,threads,output):
-	REDK='../ouir/REDItoolKnown.py '
+	REDK='REDItoolKnown.py '
 	REDK=REDK+' -i '+output+'/sort.bam -f '+refrence+' -l '+REDIportal+' -t '+str(threads)+' -c '+str(minDepth)+' -T 6-0  -p -e -d -u -m20  -v '+str(minAltReads)+' -n 0.0 -o '+output+'/'+output
 	print REDK
 	CP='cp '+output+'/'+output+'known_*/out* '+output+'.xls'
