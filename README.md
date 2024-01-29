@@ -6,10 +6,11 @@ Introduction
 
 ![](https://github.com/conversodinHXL/REDiff/blob/main/schema.png?raw=true)
 
+
 Performance
 ===========
-![](https://github.com/conversodinHXL/REDiff/blob/main/schema.png?raw=true)
-Supplementary Figure 1: Performance of ReDiff on GSE60217. A) Time usage and fastq size. GB denotes Gibibyte, min denotes minutes. B) Significant differential editing events. The x-axis represents editing levels in the siADAR group, while the y-axis represents editing levels in the control group. 
+![](https://github.com/conversodinHXL/REDiff/blob/main/performance.png?raw=true)
+Figure 1: Performance of ReDiff on GSE60217. A) Time usage and fastq size. GB denotes Gibibyte, min denotes minutes. B) Significant differential editing events. The x-axis represents editing levels in the siADAR group, while the y-axis represents editing levels in the control group. 
 
 
 Installation
