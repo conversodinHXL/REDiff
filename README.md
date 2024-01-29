@@ -7,10 +7,10 @@ Introduction
 Installation
 ============
 for python 2.7:
-conda install anaconda::pandas
-conda install anaconda::statsmodels
-conda install scipy
-pip install DateTime
+conda install anaconda::pandas <br/> 
+conda install anaconda::statsmodels  <br/> 
+conda install scipy 
+pip install DateTime 
 
 for linux:
 conda install bioconda::samtools
