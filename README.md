@@ -14,6 +14,11 @@ Figure 1: Performance of ReDiff on GSE60217. A) Time usage and fastq size. GB de
 
 Installation
 ============
+**optional:** <br/> <br/> 
+<small>conda create -n REDiff python=2.7 <br/> <br/> 
+conda activate REDiff <br/> <br/> </small>
+
+
 **for python 2.7:** <br/> <br/> 
 <small>conda install anaconda::pandas <br/> <br/> 
 conda install anaconda::statsmodels  <br/> <br/> 
@@ -31,8 +36,8 @@ tar –xvf reditools-1.0.2.tar<br/> <br/>
 cd reditools-1.0.2<br/> <br/> 
 python setup.py install<br/> <br/> </small>
 
+ 
 
-**<small>please copy all scripts of REDiff to /usr/bin/ or your conda eviroment bin local.</small>**
 
 
 Usage
