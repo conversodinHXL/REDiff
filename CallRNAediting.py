@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 desc="""This pipeline detects RNA editing events from RNA-seq data. The input is RNA-seq reads in FASTQ format, which can be single- or paired-end. The output is a list of detected RNA editing sites identified by REDItools.
 Briefly, the RNA-seq reads are first aligned to the human reference genome (GRCh37/hg19, SNP-masked index from Hisat2) using Hisat2. The alignment files are then converted to BAM, sorted, and indexed using Samtools. Finally, REDItools is used to call known RNA editing events from the REDIPortal database based on the mapped RNA-seq data.
 In summary, this pipeline aligns RNA-seq reads, processes the alignments, and then detects RNA editing sites by comparing to known sites from REDIPortal. The key tools utilized are Hisat2, Samtools, and REDItools.
@@ -13,7 +15,7 @@ chr21   47739644        A       0       18      36.61   [13, 0, 5, 0]   AG      
 chr21   47739647        A       0       16      36.12   [7, 0, 9, 0]    AG      0.56    18      30.67   [18, 0, 0, 0]   -       0.00
 
 example usage: 
-python2.7 CutAndMapping.py -o  K562_ADAR_2  -i  ENCFF093ZYA.fastq ENCFF085DKT.fastq  -ri ../ouir/hg19_ref/grch37_snp/genome_snp -r ../ouir/hg19_ref/GRCh37.primary_assembly.genome.fa -k ../ouir/hg19_ref/REDIportals.forREDItools.txt.gz -t 64
+python2.7 CallRNAediting.py -o  K562_ADAR_2  -i  ENCFF093ZYA.fastq ENCFF085DKT.fastq  -ri ../ouir/hg19_ref/grch37_snp/genome_snp -r ../ouir/hg19_ref/GRCh37.primary_assembly.genome.fa -k ../ouir/hg19_ref/REDIportals.forREDItools.txt.gz -t 64
 
 """
 epilog="""Author: Hu Xiaolin
