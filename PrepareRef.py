@@ -10,7 +10,7 @@ genome_snp.1.ht2  genome_snp.3.ht2  genome_snp.5.ht2  genome_snp.7.ht2  make_grc
 genome_snp.2.ht2  genome_snp.4.ht2  genome_snp.6.ht2  genome_snp.8.ht2 
 
 
-example usage: python2.7 prepareRefrence.py -o test_20230711
+example usage: python2.7 PrepareRef.py -o test_20230711
 """
 epilog="""Author: Hu Xiaolin
 15216716554@163.com
