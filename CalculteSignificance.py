@@ -11,11 +11,6 @@ warnings.filterwarnings('ignore')
 
 desc="""this file is the core file to detection differential RNA editing events between different groups. firstly, RNA editing events adn editing levels from all replicates in the same group would merged. here, we combine reads for different base (ATCG) and recaculate RNA editing levels with the number of base G and base A. second, the siginificance of specific editing events are valuved with fisher test, which we had introduced in our previous study. to minimize the false positive sites here, FDR were used. Finally, we use the annotaion from REDIportal to annoate RNA editing events we identified. 
 
-example results is as below:
-
-
-
-
 
 """
 epilog="""Author: Hu Xiaolin
