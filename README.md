@@ -39,7 +39,6 @@ python setup.py install<br/> <br/> </small>
  
 
 
-
 Usage
 ============
 **step0: downloading necessary files for hg19** <br/> <br/> 
