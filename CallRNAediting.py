@@ -55,8 +55,8 @@ def samtools(threads,output):
 	os.system(samtoolsIndex)
 	os.system(removesam)
 
-def REDItools(refrence,REDIportal,minAltReads,minDepth,threads,output):
-	REDK='../ouir/REDItoolKnown.py '
+def REDItools(refrence,REDIportal,minAltReads,minDepth,threads,output,REDI):
+	REDK=REDI+'/REDItoolKnown.py '
 	REDK=REDK+' -i '+output+'/sort.bam -f '+refrence+' -l '+REDIportal+' -t '+str(threads)+' -c '+str(minDepth)+' -T 6-0  -p -e -d -u -m20  -v '+str(minAltReads)+' -n 0.0 -o '+output+'/'+output
 	print(REDK)
 	os.system(REDK)
@@ -82,6 +82,7 @@ def main():
 	parser.add_argument("-v", "--verbose", default=False, action="store_true", help="verbose")
 	parser.add_argument('--version', action='version', version='0.99a')
 	parser.add_argument('-o','--output',required=False,  help="where results put")
+	parser.add_argument('-R','--REDI',required=False,  help="where REDIknowns.py is")
 	parser.add_argument('-i','--input',nargs='*',default=[],required=False,  help="input RNA-seq fastq file")
 	parser.add_argument('-r','--refrence',required=False,  help="refrence genome fasta,only for hg19")
 	parser.add_argument('-ri','--refrenceIndex',required=False,  help="Hisat2 Index refrence genome fasta,only for hg19")
@@ -120,7 +121,7 @@ def main():
 	print("Mapping results converting...")
 	samtools(o.threads,o.output)
 	print("Calling RNA editing events from mapping results...")
-	REDItools(o.refrence,o.REDIportal,o.minAltReads,o.minDepth,o.threads,o.output)
+	REDItools(o.refrence,o.REDIportal,o.minAltReads,o.minDepth,o.threads,o.output,o.REDI)
 
 
 if __name__=='__main__': 
