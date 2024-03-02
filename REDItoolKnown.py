@@ -1,4 +1,5 @@
-#!/mnt/e/linux/software/Ana/envs/py27/bin/python2.7
+#!/usr/bin/env python
+
 # Copyright (c) 2013-2014 Ernesto Picardi <ernesto.picardi@uniba.it>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
