@@ -13,7 +13,7 @@ chr21   47739644        A       0       18      36.61   [13, 0, 5, 0]   AG      
 chr21   47739647        A       0       16      36.12   [7, 0, 9, 0]    AG      0.56    18      30.67   [18, 0, 0, 0]   -       0.00
 
 example usage: 
-python2.7 CutAndMapping.py -o  K562_ADAR_2 -R ../ouir/ -i  ENCFF093ZYA.fastq ENCFF085DKT.fastq  -ri ../ouir/hg19_ref/grch37_snp/genome_snp -r ../ouir/hg19_ref/GRCh37.primary_assembly.genome.fa -k ../ouir/hg19_ref/REDIportals.forREDItools.txt.gz -t 64
+python2.7 CutAndMapping.py -o  K562_ADAR_2  -i  ENCFF093ZYA.fastq ENCFF085DKT.fastq  -ri ../ouir/hg19_ref/grch37_snp/genome_snp -r ../ouir/hg19_ref/GRCh37.primary_assembly.genome.fa -k ../ouir/hg19_ref/REDIportals.forREDItools.txt.gz -t 64
 
 """
 epilog="""Author: Hu Xiaolin
@@ -55,8 +55,8 @@ def samtools(threads,output):
 	os.system(samtoolsIndex)
 	os.system(removesam)
 
-def REDItools(refrence,REDIportal,minAltReads,minDepth,threads,output,REDI):
-	REDK=REDI+'/REDItoolKnown.py '
+def REDItools(refrence,REDIportal,minAltReads,minDepth,threads,output):
+	REDK='/root/anaconda3/envs/REDiff/bin/REDItoolKnown.py '
 	REDK=REDK+' -i '+output+'/sort.bam -f '+refrence+' -l '+REDIportal+' -t '+str(threads)+' -c '+str(minDepth)+' -T 6-0  -p -e -d -u -m20  -v '+str(minAltReads)+' -n 0.0 -o '+output+'/'+output
 	print(REDK)
 	os.system(REDK)
@@ -82,7 +82,6 @@ def main():
 	parser.add_argument("-v", "--verbose", default=False, action="store_true", help="verbose")
 	parser.add_argument('--version', action='version', version='0.99a')
 	parser.add_argument('-o','--output',required=False,  help="where results put")
-	parser.add_argument('-R','--REDI',required=False,  help="where REDIknowns.py is")
 	parser.add_argument('-i','--input',nargs='*',default=[],required=False,  help="input RNA-seq fastq file")
 	parser.add_argument('-r','--refrence',required=False,  help="refrence genome fasta,only for hg19")
 	parser.add_argument('-ri','--refrenceIndex',required=False,  help="Hisat2 Index refrence genome fasta,only for hg19")
