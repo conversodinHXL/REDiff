@@ -59,7 +59,7 @@ def samtools(threads,output):
 
 def REDItools(refrence,REDIportal,minAltReads,minDepth,threads,output):
 	REDK='REDItoolKnown.py '
-	REDK=REDK+' -i '+output+'/sort.bam -f '+refrence+' -l '+REDIportal+' -t '+str(threads)+' -c '+str(minDepth)+' -T 6-0  -p -e -d -u -m20  -v '+str(minAltReads)+' -n 0.0 -o '+output+'/'+output
+	REDK=REDK+' -i '+output+'/sort.bam -f '+refrence+' -l '+REDIportal+' -t '+str(threads)+' -c '+str(minDepth)+' -T 6-0  -p -e -d -u -m 20  -v '+str(minAltReads)+' -n 0.0 -o '+output+'/'+output
 	print(REDK)
 	os.system(REDK)
 	rename='cp '+output+'/'+output+'/'+'*/outTable*'+' '+output+'/'+output+'.REDIRes.txt'
