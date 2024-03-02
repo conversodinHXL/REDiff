@@ -24,21 +24,14 @@ conda activate REDiff <br/> <br/> </small>
 conda install anaconda::statsmodels  <br/> <br/> 
 conda install scipy <br/> <br/> 
 pip install DateTime <br/> <br/>
-python -m pip install pysam==0.7.6 <br/> <br/> </small>
+pip install pysam==0.7.6 <br/> <br/> </small>
 **for linux:** <br/> <br/> 
 <small>conda install bioconda::samtools <br/> <br/> 
 conda install bioconda::hisat2 <br/> <br/> </small>
 
-**for REDItools:** <br/> <br/> 
-<small>please move our modified REDItoolKnow.py to your conda enviroment bin or /usr/bin/ <br/> <br/>  </small>
+**for REDItoolKnown.py:** <br/> <br/> 
+<small>please move our modified REDItoolKnown.py to your conda enviroment bin or /usr/bin/ <br/> <br/>  </small>
 
-<small>download from http://sourceforge.net/projects/reditools/files/REDItools-1.0.3.tar.gz/download<br/> <br/> <br/>
-gunzip reditools-1.0.2.tar.gz<br/> <br/> 
-tar –xvf reditools-1.0.2.tar<br/> <br/> 
-cd reditools-1.0.2<br/> <br/> 
-python setup.py install<br/> <br/> </small>
-
- 
 
 
 Usage
