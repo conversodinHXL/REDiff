@@ -30,6 +30,8 @@ python -m pip install pysam==0.7.6 <br/> <br/> </small>
 conda install bioconda::hisat2 <br/> <br/> </small>
 
 **for REDItools:** <br/> <br/> 
+<small>please move our modified REDItoolKnow.py to your conda enviroment bin or /usr/bin/ <br/> <br/>  </small>
+
 <small>download from http://sourceforge.net/projects/reditools/files/REDItools-1.0.3.tar.gz/download<br/> <br/> <br/>
 gunzip reditools-1.0.2.tar.gz<br/> <br/> 
 tar –xvf reditools-1.0.2.tar<br/> <br/> 
