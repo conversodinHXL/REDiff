@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 
 desc="""This script downloads reference files for detecting RNA editing events in human (GRCh37/hg19). The files contain a reference genome indexed for hisat2 (with SNPs marked), RNA editing events from REDIportal, and genome annotations from GENCODE. The total disk space required is 15.5GB. After successful execution, the output directory will contain the following files: 
 .:
