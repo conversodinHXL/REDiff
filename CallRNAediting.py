@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 
 desc="""This pipeline detects RNA editing events from RNA-seq data. The input is RNA-seq reads in FASTQ format, which can be single- or paired-end. The output is a list of detected RNA editing sites identified by REDItools.
 Briefly, the RNA-seq reads are first aligned to the human reference genome (GRCh37/hg19, SNP-masked index from Hisat2) using Hisat2. The alignment files are then converted to BAM, sorted, and indexed using Samtools. Finally, REDItools is used to call known RNA editing events from the REDIPortal database based on the mapped RNA-seq data.
