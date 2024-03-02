@@ -13,7 +13,7 @@ chr21   47739644        A       0       18      36.61   [13, 0, 5, 0]   AG      
 chr21   47739647        A       0       16      36.12   [7, 0, 9, 0]    AG      0.56    18      30.67   [18, 0, 0, 0]   -       0.00
 
 example usage: 
-python2.7 CutAndMapping.py -o  K562_ADAR_2  -i  ENCFF093ZYA.fastq ENCFF085DKT.fastq  -ri ../ouir/hg19_ref/grch37_snp/genome_snp -r ../ouir/hg19_ref/GRCh37.primary_assembly.genome.fa -k ../ouir/hg19_ref/REDIportals.forREDItools.txt.gz -t 64
+python2.7 CutAndMapping.py -o  K562_ADAR_2 -R ../ouir/ -i  ENCFF093ZYA.fastq ENCFF085DKT.fastq  -ri ../ouir/hg19_ref/grch37_snp/genome_snp -r ../ouir/hg19_ref/GRCh37.primary_assembly.genome.fa -k ../ouir/hg19_ref/REDIportals.forREDItools.txt.gz -t 64
 
 """
 epilog="""Author: Hu Xiaolin
